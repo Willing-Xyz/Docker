@@ -1,0 +1,100 @@
+version: "3.5"
+services:
+  config1:
+    image: mongo:4.0
+    command: mongod --configsvr --replSet configRepl --bind_ip_all
+    networks:
+      - mongo-shard
+  config2:
+    image: mongo:4.0
+    command: mongod --configsvr --replSet configRepl --bind_ip_all
+    networks:
+      - mongo-shard
+  config3:
+    image: mongo:4.0
+    command: mongod --configsvr --replSet configRepl --bind_ip_all
+    networks:
+      - mongo-shard
+  config-repl-initiate:
+    build: ./configReplInitiate
+    networks:
+      - mongo-shard
+
+  shard1:
+    image: mongo:4.0
+    command: mongod --shardsvr --replSet shardRepl1 --bind_ip_all
+    networks:
+      - mongo-shard
+  shard2:
+    image: mongo:4.0
+    command: mongod --shardsvr --replSet shardRepl1 --bind_ip_all
+    networks:
+      - mongo-shard
+  shard3:
+    image: mongo:4.0
+    command: mongod --shardsvr --replSet shardRepl1 --bind_ip_all
+    networks:
+      - mongo-shard
+  shard-repl1-initiate:
+    build: ./shardRepl1Initiate
+    networks:
+      - mongo-shard
+
+  shard4:
+    image: mongo:4.0
+    command: mongod --shardsvr --replSet shardRepl2 --bind_ip_all
+    networks:
+      - mongo-shard
+  shard5:
+    image: mongo:4.0
+    command: mongod --shardsvr --replSet shardRepl2 --bind_ip_all
+    networks:
+      - mongo-shard
+  shard6:
+    image: mongo:4.0
+    command: mongod --shardsvr --replSet shardRepl2 --bind_ip_all
+    networks:
+      - mongo-shard
+  shard-repl2-initiate:
+    build: ./shardRepl2Initiate
+    networks:
+      - mongo-shard
+
+
+  shard7:
+    image: mongo:4.0
+    command: mongod --shardsvr --replSet shardRepl3 --bind_ip_all
+    networks:
+      - mongo-shard
+  shard8:
+    image: mongo:4.0
+    command: mongod --shardsvr --replSet shardRepl3 --bind_ip_all
+    networks:
+      - mongo-shard
+  shard9:
+    image: mongo:4.0
+    command: mongod --shardsvr --replSet shardRepl3 --bind_ip_all
+    networks:
+      - mongo-shard
+  shard-repl3-initiate:
+    build: ./shardRepl3Initiate
+    networks:
+      - mongo-shard
+
+  mongos:
+    image: mongo:4.0
+    command: mongos --configdb configRepl/config1:27019,config2:27019 --bind_ip_all
+    ports: 
+      - "27117:27017"
+    networks:
+      - mongo-shard
+
+  shard-cluster-initiate:
+    build: ./shardClusterInitiate
+    networks:
+      - mongo-shard
+
+  
+
+networks:
+  mongo-shard:

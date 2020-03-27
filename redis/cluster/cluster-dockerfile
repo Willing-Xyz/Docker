@@ -1,0 +1,8 @@
+FROM redis:latest
+# ARG REDIS_PORT
+COPY $PWD/cluster.conf /root/
+# RUN echo "hello   " + $REDIS_PORT
+# CMD ["/usr/local/bin/redis-server", "/root/cluster.conf", "--port $REDIS_PORT:-80"]
+# CMD /usr/local/bin/redis-server /root/cluster.conf --port $REDIS_PORT
+# ENTRYPOINT /usr/local/bin/redis-server /root/cluster.conf --port 
+

@@ -1,0 +1,3 @@
+FROM redis:latest
+COPY ./sentinel.conf /root/
+CMD ["redis-sentinel", "/root/sentinel.conf"]

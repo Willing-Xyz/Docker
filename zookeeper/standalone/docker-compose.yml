@@ -1,0 +1,7 @@
+version: "3.5"
+services:
+  zookeeper:
+    image: zookeeper:latest
+    ports: 
+      - target: 2181
+        published: 2181

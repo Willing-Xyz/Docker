@@ -1,0 +1,65 @@
+version: "3.5"
+services:
+  redis_master:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    networks:
+      - redis-sentinel-net
+  redis_slave1:
+    image: redis:latest
+    command: redis-server --slaveof redis_master 6379
+    ports:
+      - "6380:6379"
+    networks:
+      - redis-sentinel-net
+    depends_on:
+      - redis_master
+  redis_slave2:
+    image: redis:latest
+    command: redis-server --slaveof redis_master 6379
+    ports:
+      - "6381:6379"
+    networks:
+      - redis-sentinel-net
+    depends_on:
+      - redis_master
+  sentinel1:
+    build: 
+      context: .
+      dockerfile: sentinel-dockerfile
+    ports:
+      - "26379:26379"
+    networks:
+      - redis-sentinel-net
+    depends_on:
+      - redis_master  
+      - redis_slave1
+      - redis_slave2
+  sentinel2:
+    build: 
+      context: .
+      dockerfile: sentinel-dockerfile
+    ports:
+      - "26380:26379"
+    networks:
+      - redis-sentinel-net
+    depends_on:
+      - redis_master  
+      - redis_slave1
+      - redis_slave2
+  sentinel3:
+    build: 
+      context: .
+      dockerfile: sentinel-dockerfile
+    ports:
+      - "26381:26379"
+    networks:
+      - redis-sentinel-net
+    depends_on:
+      - redis_master  
+      - redis_slave1
+      - redis_slave2
+
+networks:
+    redis-sentinel-net: 
