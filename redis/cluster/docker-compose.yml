@@ -1,36 +1,44 @@
+# ip地址是docker宿主机的地址，注意，在mac或windows上，docker是作为虚拟机存在的
+# docker run --net=host --ipc=host --uts=host --pid=host -it --security-opt=seccomp=unconfined --privileged --rm -v /:/host alpine /bin/sh
+# chroot /host
+
 version: "3.5"
 services:
   redis1:
     build:
       context: .
       dockerfile: cluster-dockerfile
-    command: "/usr/local/bin/redis-server /root/cluster.conf --port 6379"
+    command: "/usr/local/bin/redis-server /root/cluster.conf --port 6379 "
     ports:
       - "6379:6379"
+      - "16379:16379"
 
   redis2:
     build:
       context: .
       dockerfile: cluster-dockerfile
-    command: "/usr/local/bin/redis-server /root/cluster.conf --port 6380"
+    command: "/usr/local/bin/redis-server /root/cluster.conf --port 6380 "
     ports:
       - "6380:6380"
+      - "16380:16380"
  
   redis3:
     build:
       context: .
       dockerfile: cluster-dockerfile
-    command: "/usr/local/bin/redis-server /root/cluster.conf --port 6381"
+    command: "/usr/local/bin/redis-server /root/cluster.conf --port 6381 "
     ports:
       - "6381:6381"
+      - "16381:16381"
  
   redis4:
     build:
       context: .
       dockerfile: cluster-dockerfile
-    command: "/usr/local/bin/redis-server /root/cluster.conf --port 6382"
+    command: "/usr/local/bin/redis-server /root/cluster.conf --port 6382 "
     ports:
       - "6382:6382"
+      - "16382:16382"
  
  
 
@@ -38,15 +46,17 @@ services:
     build:
       context: .
       dockerfile: cluster-dockerfile
-    command: "/usr/local/bin/redis-server /root/cluster.conf --port 6383"
+    command: "/usr/local/bin/redis-server /root/cluster.conf --port 6383 "
     ports:
       - "6383:6383"
+      - "16383:16383"
 
   redis6:
     build:
       context: .
       dockerfile: cluster-dockerfile
-    command: "/usr/local/bin/redis-server /root/cluster.conf --port 6384"
+    command: "/usr/local/bin/redis-server /root/cluster.conf --port 6384 "
     ports:
       - "6384:6384"
+      - "16384:16384"
  
